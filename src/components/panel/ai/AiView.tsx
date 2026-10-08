@@ -53,7 +53,7 @@ export default function AiView(): ReactNode {
 
   const saveBehaviour = useBotMutation<{ ok: true }>();
   const saveTimes = useBotMutation<{ ok: true }>();
-  const test = useBotMutation<{ reply: string; demo?: boolean }>();
+  const test = useBotMutation<{ reply: string }>();
 
   const [prompt, setPrompt] = useState('');
   const [result, setResult] = useState<AiTestResult | null>(null);
@@ -85,7 +85,7 @@ export default function AiView(): ReactNode {
   const runTest = async (): Promise<void> => {
     if (!prompt.trim()) return;
     const startedAt = Date.now();
-    const r = await test.run(() => api.post<{ reply: string; demo?: boolean }>('/api/bot/test/ai', { prompt: prompt.trim() }));
+    const r = await test.run(() => api.post<{ reply: string }>('/api/bot/test/ai', { prompt: prompt.trim() }));
     if (r.ok) {
       setResult({ reply: r.reply ?? '', ms: Date.now() - startedAt, prompt: prompt.trim() });
     } else {

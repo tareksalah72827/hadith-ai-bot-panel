@@ -3,7 +3,8 @@
 /**
  * Login screen — a centered card over a calm paper background with a subtle
  * CSS-only geometric islamic pattern (gradients built from theme tokens, no
- * images). Calls api.login and hands control back through onAuthenticated.
+ * images). Password-only login: calls api.login(password) and hands control
+ * back through onAuthenticated.
  */
 import { useState } from 'react';
 import { Loader2, Moon } from 'lucide-react';
@@ -22,23 +23,21 @@ export default function LoginView({
 }: {
   onAuthenticated: (username: string) => void;
 }) {
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const name = username.trim();
-    if (busy || !name || !password) return;
+    if (busy || !password) return;
     setBusy(true);
     setError(null);
-    const r = await api.login(name, password);
+    const r = await api.login(password);
     setBusy(false);
     if (r.ok) {
-      onAuthenticated(name); // success — the parent swaps to the app shell
+      onAuthenticated('المسؤول'); // success — the parent swaps to the app shell
     } else {
-      setError(r.error || 'فشل تسجيل الدخول — تحقق من اسم المستخدم وكلمة المرور');
+      setError(r.error || 'فشل تسجيل الدخول — تحقق من كلمة المرور');
     }
   }
 
@@ -77,21 +76,6 @@ export default function LoginView({
         <CardContent className="px-6">
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <Label htmlFor="login-username" className="text-[var(--color-ink-2)]">
-                اسم المسؤول
-              </Label>
-              <Input
-                id="login-username"
-                name="username"
-                autoComplete="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                disabled={busy}
-                className={`h-11 bg-[var(--color-paper)] text-[var(--color-ink)] ${FOCUS_CLASS}`}
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
               <Label htmlFor="login-password" className="text-[var(--color-ink-2)]">
                 كلمة المرور
               </Label>
@@ -100,6 +84,7 @@ export default function LoginView({
                 name="password"
                 type="password"
                 autoComplete="current-password"
+                autoFocus
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={busy}
@@ -122,7 +107,7 @@ export default function LoginView({
 
             <Button
               type="submit"
-              disabled={busy || !username.trim() || !password}
+              disabled={busy || !password}
               className="h-11 w-full bg-[var(--color-primary)] text-[var(--color-paper)] hover:bg-[var(--color-primary-deep)]"
             >
               {busy ? (
@@ -135,17 +120,6 @@ export default function LoginView({
               )}
             </Button>
           </form>
-
-          <p className="mt-6 text-center text-xs leading-relaxed text-[var(--color-ink-3)]">
-            بيانات الدخول الافتراضية تُضبط عبر متغيرات البيئة{' '}
-            <span dir="ltr" className="font-semibold" style={{ fontFamily: 'var(--font-mono)' }}>
-              ADMIN_USERNAME
-            </span>{' '}
-            و{' '}
-            <span dir="ltr" className="font-semibold" style={{ fontFamily: 'var(--font-mono)' }}>
-              ADMIN_PASSWORD
-            </span>
-          </p>
         </CardContent>
       </Card>
     </div>

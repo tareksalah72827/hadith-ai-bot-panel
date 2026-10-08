@@ -1,7 +1,7 @@
 /**
  * Server-side client for the Hadith Ai.BOT REST API (wispbyte server).
  * Any transport failure (network, timeout, non-2xx, non-JSON) throws
- * `BotUnavailableError` so routes can fall back to demo data.
+ * `BotUnavailableError` so routes can answer with a clear offline error.
  * Server-only — never import this from client components.
  */
 
@@ -71,7 +71,7 @@ async function botRequest<T>(
   }
 
   // Contract: the bot answers HTTP 200 for everything but a bad API key,
-  // so any non-2xx means "unreachable / misconfigured" → demo fallback.
+  // so any non-2xx means "unreachable / misconfigured" → offline error.
   if (!response.ok) {
     throw new BotUnavailableError(`البوت غير متاح (HTTP ${response.status})`);
   }

@@ -6,11 +6,14 @@ import { cookies } from 'next/headers';
  * Stateless session auth for the panel.
  * JWT-like token (HMAC-SHA256, base64url) stored in an httpOnly cookie —
  * no external auth libraries, `node:crypto` only.
+ * Login is password-only (no username) per the owner's decision.
  */
 
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME ?? 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? 'Hadith@2026';
 const AUTH_SECRET = process.env.AUTH_SECRET ?? 'hadith-panel-dev-secret-uniral-2026';
+
+/** Fixed display name carried inside the session token. */
+export const ADMIN_DISPLAY_NAME = 'المسؤول';
 
 export const SESSION_COOKIE = 'hadith_session';
 export const SESSION_TTL_SEC = 7 * 24 * 60 * 60; // 7 days
@@ -65,7 +68,7 @@ export function verifySessionToken(token: string | null | undefined): SessionPay
 }
 
 // ---------------------------------------------------------------------------
-// Credentials
+// Credentials — password only
 // ---------------------------------------------------------------------------
 
 /** Compares fixed-size digests so response time leaks nothing about length. */
@@ -75,8 +78,9 @@ function constantTimeEqual(a: string, b: string): boolean {
   return timingSafeEqual(digestA, digestB);
 }
 
-export function checkCredentials(username: string, password: string): boolean {
-  return constantTimeEqual(username, ADMIN_USERNAME) && constantTimeEqual(password, ADMIN_PASSWORD);
+/** Password-only login: the single credential checked by /api/auth/login. */
+export function checkCredentials(password: string): boolean {
+  return constantTimeEqual(password, ADMIN_PASSWORD);
 }
 
 // ---------------------------------------------------------------------------

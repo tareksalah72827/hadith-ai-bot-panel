@@ -11,7 +11,6 @@ import {
   Check,
   CircleCheck,
   Copy,
-  FlaskConical,
   Loader2,
   Phone,
   QrCode,
@@ -34,7 +33,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -76,7 +74,6 @@ export default function ConnectionView() {
   const number = status.data?.me?.number ?? null;
   const qr = qrRes.data?.qr ?? null;
   const pairingCode = pairM.result?.pairingCode ?? null;
-  const demo = status.data?.demo === true || qrRes.data?.demo === true;
 
   // Paint the freshest QR string onto the canvas.
   useEffect(() => {
@@ -181,20 +178,6 @@ export default function ConnectionView() {
           تحديث
         </Button>
       </header>
-
-      {demo && (
-        <div
-          className="flex items-center gap-2 rounded-[var(--radius-md)] border px-4 py-2.5 text-sm leading-relaxed"
-          style={{
-            borderColor: 'var(--color-warn)',
-            backgroundColor: 'color-mix(in oklab, var(--color-warn) 12%, transparent)',
-            color: 'var(--color-ink)',
-          }}
-        >
-          <FlaskConical className="size-4 shrink-0" style={{ color: 'var(--color-accent-deep)' }} aria-hidden="true" />
-          وضع العرض التجريبي — البوت غير متصل، والبيانات المعروضة للتوضيح فقط.
-        </div>
-      )}
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {/* QR pairing */}
@@ -384,11 +367,6 @@ export default function ConnectionView() {
                     )}
                   </Button>
                 </div>
-                {pairM.result?.demo === true && (
-                  <Badge className="border-transparent bg-[var(--color-paper-3)] text-[var(--color-ink-3)]">
-                    كود تجريبي
-                  </Badge>
-                )}
               </div>
             )}
 

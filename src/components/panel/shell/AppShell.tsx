@@ -2,12 +2,12 @@
 
 /**
  * AppShell — the panel backbone: RTL sidebar on the right (desktop) + mobile
- * Sheet nav, sticky topbar (section title, bot status pill, demo badge, theme
- * toggle, account menu) and the scrollable main area. page.tsx swaps the
- * children per view; the shell only reads bot status and navigates by hash.
+ * Sheet nav, sticky topbar (section title, bot status pill, theme toggle,
+ * account menu) and the scrollable main area. page.tsx swaps the children
+ * per view; the shell only reads bot status and navigates by hash.
  */
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from 'react';
-import { FlaskConical, LayoutDashboard, Loader2, LogOut, Menu, Moon, Sun } from 'lucide-react';
+import { LayoutDashboard, Loader2, LogOut, Menu, Moon, Sun } from 'lucide-react';
 import { NAV_ICONS, NAV_ITEMS, navLabel, navigate } from '@/components/panel/shared/nav';
 import { useBotResource } from '@/components/panel/shared/hooks';
 import { api } from '@/lib/browser-api';
@@ -216,7 +216,6 @@ export default function AppShell({
   const pending = status.data?.stats.pendingGroups ?? 0;
   const title = navLabel(view);
   const initial = (username.trim()[0] ?? '؟').toUpperCase();
-  const demo = status.data?.demo === true;
 
   function toggleTheme() {
     setTheme(!dark);
@@ -272,24 +271,6 @@ export default function AppShell({
           <h1 className="min-w-0 flex-1 truncate text-base font-semibold md:text-lg">{title}</h1>
 
           <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
-            {demo && (
-              <>
-                <span
-                  className="hidden items-center gap-1.5 rounded-full bg-[var(--color-warn)] px-2.5 py-1 text-xs font-medium text-[var(--color-ink)] sm:inline-flex"
-                  title="وضع العرض التجريبي — البوت غير متصل"
-                >
-                  <FlaskConical className="size-3" aria-hidden="true" />
-                  وضع العرض التجريبي
-                </span>
-                <span
-                  className="inline-flex size-5 items-center justify-center rounded-full bg-[var(--color-warn)] sm:hidden"
-                  title="وضع العرض التجريبي"
-                >
-                  <FlaskConical className="size-3 text-[var(--color-ink)]" aria-hidden="true" />
-                  <span className="sr-only">وضع العرض التجريبي</span>
-                </span>
-              </>
-            )}
             <StatusPill status={status.data} loading={status.loading} />
             <Button
               variant="ghost"

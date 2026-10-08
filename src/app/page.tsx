@@ -49,7 +49,7 @@ export default function Page (): ReactNode {
       const r = await api.me();
       if (!alive) return;
       if (r.ok && r.authenticated) {
-        setUsername(r.username ?? 'admin');
+        setUsername(r.username ?? 'المسؤول');
         setAuthState('authed');
       } else {
         setAuthState('anonymous');

@@ -2,7 +2,7 @@
 
 /**
  * QuranView — settings for the periodic audio-ayah broadcast (reciter,
- * surah range, interval) plus a demo-safe ayah preview / send-now action.
+ * surah range, interval) plus an ayah preview / send-now action.
  */
 import { useState } from 'react';
 import type { ReactNode } from 'react';
@@ -72,7 +72,7 @@ export default function QuranView(): ReactNode {
 
   const save = useBotMutation<{ ok: true }>();
   const [ayah, setAyah] = useState<AyahPreview | null>(null);
-  const preview = useBotMutation<{ ok: true; demo?: boolean; ayah?: AyahPreview }>();
+  const preview = useBotMutation<{ ok: true; ayah?: AyahPreview }>();
 
   const saveSettings = async (): Promise<void> => {
     if (!rangeOk) return;
@@ -92,31 +92,21 @@ export default function QuranView(): ReactNode {
   };
 
   const fetchPreview = async (): Promise<void> => {
-    const r = await preview.run(() => api.post<{ demo?: boolean; ayah?: AyahPreview }>('/api/bot/quran/send-now', {}));
+    const r = await preview.run(() => api.post<{ ayah?: AyahPreview }>('/api/bot/quran/send-now', {}));
     if (r.ok) {
-      if (r.demo === true && r.ayah) {
-        // Demo mode: the endpoint did not actually broadcast — safe to show
-        setAyah(r.ayah);
-        toast({ title: 'جُلبت آية للمعاينة', description: 'وضع العرض — لم يُرسل شيء للمشتركين' });
-      } else if (r.demo === true) {
-        toast({ title: 'وضع العرض', description: 'لا تتوفر آية للمعاينة حاليًا' });
-      } else {
-        setAyah(r.ayah ?? null);
-        toast({ title: 'أُرسلت للجميع', description: 'وصلت الآية إلى المشتركين في البثّ الفعلي' });
-      }
+      setAyah(r.ayah ?? null);
+      toast({ title: 'أُرسلت للجميع', description: 'وصلت الآية إلى المشتركين في البثّ الفعلي' });
     } else {
       toast({ title: 'تعذّر جلب الآية', description: r.error, variant: 'destructive' });
     }
   };
 
   const sendNow = async (): Promise<void> => {
-    const r = await preview.run(() => api.post<{ demo?: boolean; ayah?: AyahPreview }>('/api/bot/quran/send-now', {}));
+    const r = await preview.run(() => api.post<{ ayah?: AyahPreview }>('/api/bot/quran/send-now', {}));
     if (r.ok) {
       toast({
         title: 'أُرسلت الآية إلى المشتركين',
-        description: r.ayah
-          ? `سورة ${r.ayah.surahName} — الآية ${arNum(r.ayah.ayah)}${r.demo === true ? ' (وضع العرض — لم يُرسل فعليًا)' : ''}`
-          : r.demo === true ? 'وضع العرض — لم يُرسل فعليًا' : undefined,
+        description: r.ayah ? `سورة ${r.ayah.surahName} — الآية ${arNum(r.ayah.ayah)}` : undefined,
       });
       if (r.ayah) setAyah(r.ayah);
     } else {

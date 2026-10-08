@@ -2,8 +2,9 @@
 
 /**
  * Shared polling hooks for panel views. Every view reads bot resources through
- * these hooks so behaviour (refresh cadence, demo detection, error states) is
- * uniform across the app. Views must render fine in demo mode.
+ * these hooks so behaviour (refresh cadence, error states) is uniform across
+ * the app. Views render the real bot state only — when the bot is offline they
+ * show honest error/empty states, never mock data.
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from '@/lib/browser-api';
@@ -13,7 +14,6 @@ export interface Resource<T> {
   data: T | null;
   error: string | null;
   loading: boolean;
-  demo: boolean;
   refresh: () => void;
 }
 
@@ -21,11 +21,10 @@ interface Snapshot<T> {
   path: string;
   data: T | null;
   error: string | null;
-  demo: boolean;
 }
 
 /**
- * Poll a GET panel route at an interval; detects the `demo: true` flag.
+ * Poll a GET panel route at an interval.
  * `loading` is derived from the snapshot (no sync setState inside effects).
  */
 export function useBotResource<T>(path: string | null, pollMs = 15000): Resource<T> {
@@ -38,10 +37,9 @@ export function useBotResource<T>(path: string | null, pollMs = 15000): Resource
     const r = await api.get<T>(path);
     if (seq !== loadSeq.current) return; // stale response — ignore
     if (r.ok) {
-      const isDemo = (r as unknown as Record<string, unknown>).demo === true;
-      setSnapshot({ path, data: r as unknown as T, error: null, demo: isDemo });
+      setSnapshot({ path, data: r as unknown as T, error: null });
     } else {
-      setSnapshot({ path, data: null, error: r.error, demo: false });
+      setSnapshot({ path, data: null, error: r.error });
     }
   }, [path]);
 
@@ -63,7 +61,6 @@ export function useBotResource<T>(path: string | null, pollMs = 15000): Resource
     data: live ? live.data : null,
     error: live ? live.error : null,
     loading,
-    demo: live ? live.demo : false,
     refresh: () => { void load(); },
   };
 }

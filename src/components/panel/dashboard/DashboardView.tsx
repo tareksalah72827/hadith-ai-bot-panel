@@ -3,8 +3,8 @@
 /**
  * Overview view: greeting + real Gregorian date, 4 stat cards, connection
  * status, quick actions (send ayah / quote now), and the last 6 log entries.
- * All data comes from the panel proxies (demo data included when the bot is
- * unreachable), so the view renders fine in demo mode.
+ * Data comes from the panel proxies; when the bot is unreachable the view
+ * shows honest error and empty states only.
  */
 import { type ReactNode } from 'react';
 import {
@@ -22,7 +22,6 @@ import { formatUptime, useBotMutation, useBotResource } from '@/components/panel
 import { api } from '@/lib/browser-api';
 import type { AyahPreview, BotStatus, LogEntry } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -193,11 +192,6 @@ export default function DashboardView({ onNavigate }: { onNavigate: (view: strin
             {dateStr} — نظرة عامة على أداء Hadith Ai.BOT
           </p>
         </div>
-        {status.data?.demo === true && (
-          <Badge className="border-transparent bg-[var(--color-warn)] text-[var(--color-ink)]">
-            وضع العرض التجريبي
-          </Badge>
-        )}
       </section>
 
       {status.error && !status.data && (

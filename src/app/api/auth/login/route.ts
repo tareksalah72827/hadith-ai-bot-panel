@@ -1,5 +1,6 @@
 import type { NextRequest } from 'next/server';
 import {
+  ADMIN_DISPLAY_NAME,
   applySessionCookie,
   checkCredentials,
   isLoginRateLimited,
@@ -11,7 +12,7 @@ import { getClientIp, json, readJsonBody } from '@/lib/utils-server';
 export const dynamic = 'force-dynamic';
 
 /**
- * POST /api/auth/login — body `{ username, password }`.
+ * POST /api/auth/login — body `{ password }` (no username).
  * Success → httpOnly `hadith_session` cookie (7 days).
  * Failure → 401 with Arabic error. Rate limited: 5 failures / minute / IP.
  */
@@ -26,20 +27,19 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await readJsonBody(request);
-  const username = typeof body?.username === 'string' ? body.username.trim() : '';
   const password = typeof body?.password === 'string' ? body.password : '';
 
-  if (username === '' || password === '') {
-    return json({ ok: false, error: 'اسم المستخدم وكلمة المرور مطلوبان' }, 400);
+  if (password === '') {
+    return json({ ok: false, error: 'كلمة المرور مطلوبة' }, 400);
   }
 
-  if (!checkCredentials(username, password)) {
+  if (!checkCredentials(password)) {
     recordLoginFailure(ip);
-    return json({ ok: false, error: 'بيانات الدخول غير صحيحة' }, 401);
+    return json({ ok: false, error: 'كلمة المرور غير صحيحة' }, 401);
   }
 
   resetLoginFailures(ip);
-  const response = json({ ok: true, username });
-  applySessionCookie(response, username);
+  const response = json({ ok: true, username: ADMIN_DISPLAY_NAME });
+  applySessionCookie(response, ADMIN_DISPLAY_NAME);
   return response;
 }

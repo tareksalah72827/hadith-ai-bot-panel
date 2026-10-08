@@ -25,18 +25,15 @@ export interface BotStatus {
   uptimeSec: number;
   stats: BotStats;
   version: string;
-  demo?: boolean;
 }
 
 export interface QrResponse {
   qr: string | null;
   state: 'waiting' | 'connecting' | 'connected' | 'disconnected';
-  demo?: boolean;
 }
 
 export interface PairResponse {
   pairingCode: string | null;
-  demo?: boolean;
   message?: string;
 }
 
@@ -124,7 +121,6 @@ export interface ApiOk {
 export interface ApiErr {
   ok: false;
   error: string;
-  demo?: boolean;
 }
 
 export type ApiResponse<T> = (T & { ok: true }) | ApiErr;
