@@ -1,0 +1,121 @@
+/* Hallmark · macrostructure: Workbench (admin app) · tone: editorial-dignified · theme: custom (vibe: "islamic manuscript, siraj lantern light") · paper oklch(97% 0.012 95) · accent oklch(70% 0.125 85) · display: Amiri · body: IBM Plex Sans Arabic · axes: light-paper / classical-serif / warm-gold */
+/* Hallmark · pre-emit critique: P5 H4 E5 S4 R5 V4 */
+
+/* ————————————————————————————————————————————————
+   Siraj — design tokens · single source of truth
+   Every colour, font, space, duration and radius used
+   anywhere in the panel resolves through a named token
+   below. Raw colour values are forbidden elsewhere.
+   Light tokens live on :root; dark tokens on :root.dark
+   (next-themes toggles the `dark` class on <html>).
+   ———————————————————————————————————————————————— */
+
+:root {
+  /* — Paper & ink — */
+  --color-paper: oklch(97.5% 0.012 95);
+  --color-paper-2: oklch(94% 0.015 100);
+  --color-paper-3: oklch(90% 0.018 105);
+  --color-ink: oklch(25% 0.02 160);
+  --color-ink-2: oklch(45% 0.02 160);
+  --color-ink-3: oklch(60% 0.015 160);
+
+  /* — Emerald (primary) & lantern gold (accent) — */
+  --color-primary: oklch(44% 0.09 158);
+  --color-primary-deep: oklch(34% 0.08 160);
+  --color-primary-soft: oklch(86% 0.05 158);
+  --color-accent: oklch(72% 0.13 85);
+  --color-accent-deep: oklch(58% 0.12 80);
+
+  /* — Signals — */
+  --color-danger: oklch(55% 0.19 25);
+  --color-success: oklch(58% 0.13 150);
+  --color-warn: oklch(68% 0.13 70);
+
+  /* — Lines, focus, surfaces, scrims — */
+  --color-line: oklch(88% 0.015 100);
+  --color-focus: oklch(60% 0.11 85);
+  --color-white: oklch(99% 0.005 95);
+  --color-black-40: oklch(25% 0.02 160 / 0.4);
+
+  /* — Typography (next/font redefines these vars on <body> with the
+       self-hosted faces; the literals below are the fallback stack) — */
+  --font-display: "Amiri", serif;
+  --font-body: "IBM Plex Sans Arabic", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  /* — Spacing · 4pt scale — */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* — Type scale — */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --text-3xl: 36px;
+  --text-display: 44px;
+
+  /* — Motion (transform / opacity only) — */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 240ms;
+  --dur-slow: 400ms;
+
+  /* — Radius — */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-full: 999px;
+
+  /* — Rules & elevation — */
+  --rule-hairline: 1px solid var(--color-line);
+  --shadow-card: 0 1px 2px oklch(25% 0.02 160 / 0.06);
+}
+
+/* ————————————————————————————————————————————————
+   Dark · "night manuscript" — the lantern glows,
+   the paper turns deep green-black. Only colours
+   change; scale, type and motion are theme-invariant.
+   ———————————————————————————————————————————————— */
+
+:root.dark {
+  /* — Paper & ink — */
+  --color-paper: oklch(19% 0.015 160);
+  --color-paper-2: oklch(23% 0.017 160);
+  --color-paper-3: oklch(28% 0.02 158);
+  --color-ink: oklch(92% 0.01 95);
+  --color-ink-2: oklch(75% 0.015 95);
+  --color-ink-3: oklch(58% 0.02 95);
+
+  /* — Emerald & lantern gold (lightened for dark ground) — */
+  --color-primary: oklch(64% 0.1 158);
+  --color-primary-deep: oklch(72% 0.09 158);
+  --color-primary-soft: oklch(34% 0.06 158);
+  --color-accent: oklch(76% 0.12 85);
+  --color-accent-deep: oklch(82% 0.1 90);
+
+  /* — Signals — */
+  --color-danger: oklch(62% 0.17 25);
+  --color-success: oklch(68% 0.12 150);
+  --color-warn: oklch(72% 0.12 70);
+
+  /* — Lines, focus, surfaces, scrims — */
+  --color-line: oklch(32% 0.02 158);
+  --color-focus: oklch(66% 0.11 85);
+  --color-white: oklch(24% 0.018 158);
+  --color-black-40: oklch(10% 0.01 160 / 0.6);
+
+  /* — Elevation — */
+  --shadow-card: 0 1px 2px oklch(0% 0 0 / 0.4);
+}

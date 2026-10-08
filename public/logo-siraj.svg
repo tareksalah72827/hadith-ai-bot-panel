@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-labelledby="siraj-title">
+  <title id="siraj-title">Siraj — Hadith Ai.BOT</title>
+  <!-- ground line -->
+  <path d="M10 57.5 H54" stroke="oklch(72% 0.13 85)" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- pointed Islamic arch -->
+  <path d="M14 57.5 V28 C14 16 21.5 9.5 32 9.5 C42.5 9.5 50 16 50 28 V57.5" stroke="oklch(44% 0.09 158)" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- apex finial -->
+  <circle cx="32" cy="6.8" r="2.1" stroke="oklch(72% 0.13 85)" stroke-width="1.6"/>
+  <!-- suspension chain -->
+  <path d="M32 12 V20" stroke="oklch(44% 0.09 158)" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- lantern dome -->
+  <path d="M28.3 25 C28.3 21.6 29.9 20.2 32 20.2 C34.1 20.2 35.7 21.6 35.7 25" stroke="oklch(72% 0.13 85)" stroke-width="1.8" fill="none"/>
+  <!-- crown ring -->
+  <path d="M27.3 25.4 H36.7" stroke="oklch(72% 0.13 85)" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- lantern body (tapered) -->
+  <path d="M27.7 25.4 H36.3 L38 41.5 H26 Z" stroke="oklch(44% 0.09 158)" stroke-width="2" stroke-linejoin="round" fill="none"/>
+  <!-- glass panes -->
+  <path d="M29.9 28.5 V38.5 M34.1 28.5 V38.5" stroke="oklch(72% 0.13 85)" stroke-width="1.4" stroke-linecap="round"/>
+  <!-- the flame -->
+  <path d="M32 30 C33.7 32 33.4 34 32 35.4 C30.6 34 30.3 32 32 30 Z" fill="oklch(72% 0.13 85)"/>
+  <!-- stem and base plate -->
+  <path d="M32 41.8 V45.2" stroke="oklch(44% 0.09 158)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M27.8 45.5 H36.2" stroke="oklch(72% 0.13 85)" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- bottom drop finial -->
+  <path d="M32 47.7 V50" stroke="oklch(44% 0.09 158)" stroke-width="1.8" stroke-linecap="round"/>
+</svg>
